@@ -9,5 +9,10 @@
 * using nginx instead of apache
 * english :)
 
+### Testing generic routing
+* Route /
+* Route /me
+* Route /[anything else]/[what?]
+	> This should be the main part for building a nested set of navigation elements to display the site structure, which is defined in a xml structure
 
 If someone stops by and want to contribute please contact me under <rob@rs3d.de> or http://www.rs3d.de/kontakt
