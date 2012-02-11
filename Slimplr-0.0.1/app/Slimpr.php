@@ -42,7 +42,8 @@ class Slimpr extends Slim {
 	function __construct ($userSettings = array()) {
 		 $this->settings = array_merge(array(
             //About
-            'about' => 'There is no about',
+            'about' => 'There is no about', // for test purpose
+
         ), $userSettings);
 
         parent :: __construct($this -> settings);
@@ -52,11 +53,26 @@ class Slimpr extends Slim {
 		show($this->settings['mode']);
 		#show($this->request);
 
-		$this ->get(self::$URI, function () {
-			echo 'hello world';
-		});
+		$this -> getRouting();
+		
 		$this->run();
 
 	}
+
+	function getRouting () {
+		$this ->get('/', function () {
+			echo 'Hello world! This is the root node.';
+		});
+
+		$this ->get('/me', function () {
+			echo 'Hello world! You know me?';
+		});
+
+		$this ->get(self::$URI, function () {
+			echo 'Hello world! This is very generic!!!';
+		});
+
+	}
+
 
 }
