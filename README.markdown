@@ -10,4 +10,4 @@
 * english :)
 
 
-If someone stops by and want to contribute please contact me <rob@rs3d.de>
+If someone stops by and want to contribute please contact me under <rob@rs3d.de> or http://www.rs3d.de/kontakt
