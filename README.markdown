@@ -5,3 +5,9 @@
 * git
 * github
 * Slim Framework
+* more about extending classes
+* using nginx instead of apache
+* english :)
+
+
+If someone stops by and want to contribute please contact me <rob@rs3d.de>
