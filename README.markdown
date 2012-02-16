@@ -1,4 +1,4 @@
-# Slimplr is a fork of Slim Framework for PHP 5
+# Slimplr is a fork of [Slim Framework for PHP 5](http://www.slimframework.com)
 
 ## This is a private project to learn
 
