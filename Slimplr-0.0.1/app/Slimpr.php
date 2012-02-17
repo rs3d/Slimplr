@@ -80,7 +80,7 @@ class Slimpr extends Slim {
     					'status' => 'online',
     				),
     				'selection' => array(
-    					'global' => 1,
+    					'global' => "true",
     				),
     				'level' => array(
     					'start' => 0,
@@ -109,10 +109,10 @@ class Slimpr extends Slim {
     				),
     				'selection' => array(
     					'current' => 1,
-    					'parent' => 1,
+    					/*'parent' => 1,*/
     					'child' => 1,
     					'brother' => 1,
-    					'uncle' => 1,
+    					/*'uncle' => 1,*/
     				),
     				'level' => array(
     					'start' => 0,
@@ -139,11 +139,15 @@ class Slimpr extends Slim {
 	}
 
 	private function getRouting () {
-		$this->get('/admin(/:options)', function ($options='(not set)') {
+		/** anomymous functions are supported by php >= 5.3 
+			
+		**/
+
+		/*$this->get('/admin(/:options)', function ($options='(not set)') {
 			echo 'Hello admin! This is a dummy siteaccess for admins only.';
 			echo '<br />';
 			echo 'Your option is: '.$options;
-		});
+		});*/
 
 		/**
 		 * This gets tne navigation model and current page object
@@ -152,7 +156,7 @@ class Slimpr extends Slim {
 		$this->page = $this -> _Navigation -> getCurrent();
 		
 		$this->get($this->page-> url, $this->getPage($this->page));
-		
+		/*
 		$this->get('/', function () {
 			show ('Hello world! This is the root node.');
 		});
@@ -164,6 +168,7 @@ class Slimpr extends Slim {
 		$this->get(self::$URI, function () {
 			echo 'Hello world! This is very generic!!!';
 		});
+		*/
 		// redirection
 
 		// else: We should determine a 404-error for files like Google authorization files
