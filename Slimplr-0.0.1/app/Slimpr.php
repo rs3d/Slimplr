@@ -93,6 +93,7 @@ class Slimpr extends Slim {
     					'status' => 'online',
     				),
     				'selection' => array(
+    					'first' => 1,
     					'current' => 1,
     					'parent' => 1,
     				),
@@ -127,13 +128,13 @@ class Slimpr extends Slim {
         parent :: __construct($this -> settings);
 		
 		
-		show($this->settings['meta']['about']);
+		#show($this->settings['meta']['about']);
 		#show($this->settings['mode']);
 		#show($this->request);
 
 		$this -> getRouting();
 		
-		$this->run();
+		#$this->run();
 
 	}
 
@@ -172,7 +173,7 @@ class Slimpr extends Slim {
 			$view = $this->view();
 			#show ($view);
 			//show($page);
-			//show(Model_NavigationElement::$_single);
+		    #show(Model_NavigationElement::$_single);
 			#show($this->page);
 			$view->setData($this->settings['meta']);
 					
