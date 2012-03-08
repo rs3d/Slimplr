@@ -12,6 +12,9 @@
 	<meta name="robots" content="index, follow" />
 
 	<link href="/css/style.css" rel="stylesheet" media="all"  />
+	<link  href="http://fonts.googleapis.com/css?family=Anonymous+Pro:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+
+	
 	<link rel="shortcut icon" href="/img/favicon.ico" />
 	<link id="page_favicon" href="/img/favicon.ico" rel="icon" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -19,13 +22,15 @@
     <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">
 	
+
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	
+
 	<script src="/js/script.js"></script>
+
 </head>
 <body <?php echo $class?>>
 <div class="container"> 
@@ -35,11 +40,11 @@
 		<hgroup class="section">
 			<h1 id="logo">
 				<a href="<?php echo $page -> url ?>">
-				<img src="/img/Slimple.png" alt="Slimple" />
+					Slimplr
 				</a>
 			</h1>
 			<h2 id="claim" >
-				claim
+				<?php echo $page->name;?>
 			</h2>
 		</hgroup>
 	</header>
@@ -47,7 +52,7 @@
 		<div id="main" role="main" class="section">
 			<div id="content">
 		
-			<h3 class="auto"><?php echo $page->name;?></h3>
+			<h3 class="auto"></h3>
 			
 			<blockquote>	
 			
@@ -67,7 +72,7 @@
 				</p>
 
 			</blockquote>
-
+			
 			<h4>The $page object</h4>
 			<?php
 			
@@ -82,34 +87,27 @@
 		</div>
 	
 		<nav id="navigation" class="section">
-			<h4 class="section">Navigation</h4>
-			<ul>
-				
-				<li>
-				<div id="navigation-main">
-					<h4 class="section">Main</h4>
-					<?php echo $navigation['main'];?>
-				</div>
-				</li>
-				<li>
-				<div id="navigation-context">
-					<h4 class="section">Context</h4>
-					<?php echo $navigation['context'];?>
-				</div>
-				</li>
-				<li>
-				<div id="navigation-breadcrumb">
-					<h4 class="section">Breadcrumb</h4>
-			 		<?php echo $navigation['breadcrumb'];?>
-				</div>
-				</li>
-				<li>
-				<div id="navigation-global">
-					<h4 class="section">Global</h4>
-			 		<?php echo $navigation['global'];?>
-				</div>
-				</li>
-			</ul>
+			<h3 class="section">Navigation</h3>
+			<div id="navigation-main">
+				<h4 class="section">Main</h4>
+				<?php echo $navigation['main'];?>
+			</div>
+
+			<div id="navigation-context">
+				<h4 class="section">Context</h4>
+				<?php echo $navigation['context'];?>
+			</div>
+
+			<div id="navigation-breadcrumb">
+				<h4 class="section">Breadcrumb</h4>
+		 		<?php echo $navigation['breadcrumb'];?>
+			</div>
+			</li>
+			<li>
+			<div id="navigation-global">
+				<h4 class="section">Global</h4>
+		 		<?php echo $navigation['global'];?>
+			</div>
 		</nav>
 	
 		<footer id="footer" class="section">

@@ -20,6 +20,11 @@
 		  		<name>Level 2a Nested</name>
 		  		<path>level-2a-nested</path>
 		  	</item>
+
+		  	<item id="auto()" status="online">
+		  		<name>Hallo Rebecca</name>
+		  		<path>/hallo</path>
+		  	</item>
 		  	<item id="auto()" status="online">
 		  		<name>Level 2b from Root</name>
 		  		<path>/level-2b-from-root</path>
@@ -29,7 +34,10 @@
 		  		<path>level-2c-nested</path>
 		  	</item>
 	  	</item>
-  </item>  	  	
+  </item>
+  <item id="auto()" status="online" global="true">
+  		<name>Item</name>
+  </item>	
   <item id="auto()" status="online" global="true">
   		<name>Contact</name>
   		<path>/contact</path>
@@ -38,4 +46,9 @@
   		<name>Imprint</name>
   		<path>imprint</path>
   </item>
+
+  <item id="auto()" status="offline" global="true">
+  		<name>An offline element</name>
+  </item>
+ 
 </navigation>

@@ -152,6 +152,17 @@ class Slimpr extends Slim {
 		/**
 		 * This gets tne navigation model and current page object
 		 */
+		
+		$app = new Slim();
+		$request = $app->request(); 
+		show($request);
+		/**/
+
+		/**
+		 * WALK all Single, get Param and make Routing 
+		 * **/
+
+
 		$this->_Navigation = $this->_getNavigationModel();
 		$this->page = $this -> _Navigation -> getCurrent();
 		
@@ -169,7 +180,12 @@ class Slimpr extends Slim {
 			echo 'Hello world! This is very generic!!!';
 		});
 		*/
+		
+		// ToDos
 		// redirection
+		// hardcoded link?!
+		// Logik vor modules?
+		// JS-Linking
 
 		// else: We should determine a 404-error for files like Google authorization files
 	}
@@ -178,7 +194,7 @@ class Slimpr extends Slim {
 			$view = $this->view();
 			#show ($view);
 			//show($page);
-		    #show(Model_NavigationElement::$_single);
+		    //show(Model_NavigationElement::$_single);
 			#show($this->page);
 			$view->setData($this->settings['meta']);
 					

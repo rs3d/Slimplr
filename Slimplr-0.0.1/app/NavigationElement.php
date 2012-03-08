@@ -27,7 +27,7 @@ class Model_NavigationElement extends SimpleXMLElement {
 		foreach ($xpath as $element) {
 			//echo '<h4>'.$element->getAttribute('name').'</h4>';
 			
-			#$element->singleElement();
+			$element->singleElement();
 			$element->_getURI();
 			/*echo 'URL: '.($element->getAttribute('url'));
 			echo '<br />';
@@ -149,33 +149,41 @@ class Model_NavigationElement extends SimpleXMLElement {
 	}
 	
 	public function singleElement () {
-		$id = $this->getAttribute('id');
-
-		if ((string) $id == 'auto()') {
-			$new_id = $this->_getFriendlyID($this->getAttribute('name'));
-			/*$new_id = );
-
-			if (isset(self::$_single[$new_id])) {
-				$i=1;
-				while(isset(self::$_single[$new_id])){
-				   $new_id=$new_id.'-'.$i;
-				   $i++;
-				}
-			}*/
-			$id = $this['id'] = $new_id;
-		}
-
-		
+		$id = self::getAttribute('id');
 		if (isset(self::$_single[(string)$id])) {
 			# cache
 			#echo 'CACHE';
 			return self::$_single[(string)$id];
 		}
+		if ((string) $id == 'auto()') {
+			$new_id = self::_getFriendlyID($this->getAttribute('name'));
+
+			$id = $new_id;
+		}
+
+		
+		
 		# no cache
 	   	$return = self::$_single[(string)$id] = $this->_deleteChild();
 	   	return $return;
 	  
 	}
+
+	protected function _getFriendlyID ($name) {
+        $id = $this->friendly_url($this->getAttribute($name));
+
+		if (isset(self::$_single[$id])) {
+			$i=1;
+			$new_id=$id;
+			while(isset(self::$_single[$new_id])){
+				$new_id=$id.'-'.$i;
+				$i++;
+			}
+			$id = $new_id;
+		}
+
+		return $this['id'] = $id;
+    }
 
 	public function friendly_url($url) {
 		// everything to lower and no spaces begin or end
@@ -220,20 +228,6 @@ class Model_NavigationElement extends SimpleXMLElement {
     	$string = str_replace(array_keys($replacements), $replacements, $string);
     	return $string; 
 	}
-	
-	protected function _getFriendlyID ($name) {
-        $new_id = self::friendly_url($this->getAttribute($name));
-
-		if (isset(self::$_single[$new_id])) {
-			$i=1;
-			while(isset(self::$_single[$new_id])){
-				$new_id=self::friendly_url($new_id).'-'.$i;
-				$i++;
-			}
-		}
-
-		return $id = $this['id'] = $new_id;
-    }
 	
    	protected function _getURI() {
    		 #echo $this->getAttribute('path').' /:'.strpos($this->getAttribute('path'),'/').'<br />';
