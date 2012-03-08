@@ -4,6 +4,7 @@ class Model_NavigationElement extends SimpleXMLElement {
 	const Container = 'item';
 	static public $Current = null;
 	static $_filter = array('@status !="offline"');
+	static $_ids    = array(); // $_single['id'] = object;
 	static $_single = array(); // $_single['id'] = object;
    	
 	 public static function _new($xml, $url, $ns=NULL, $prefix=TRUE) {
@@ -26,13 +27,9 @@ class Model_NavigationElement extends SimpleXMLElement {
 		*/
 		foreach ($xpath as $element) {
 			//echo '<h4>'.$element->getAttribute('name').'</h4>';
-			
-			$element->singleElement();
 			$element->_getURI();
-			/*echo 'URL: '.($element->getAttribute('url'));
-			echo '<br />';
-			echo 'Path: '.($element->getAttribute('path'));
-			*/
+			#$element->singleElement();
+			
 		}
         return $_model;
     }
@@ -50,11 +47,11 @@ class Model_NavigationElement extends SimpleXMLElement {
    		
    		
 		$xpath = $this->xpath_filter('//'.self::Container);
-		foreach ($xpath as $element) {
+		/*foreach ($xpath as $element) {
 			#echo $element->getAttribute('name');
 			$element->singleElement();
 			#show($element);
-		}
+		}*/
 		#show(self::$_single);
 	}
 	
@@ -155,16 +152,10 @@ class Model_NavigationElement extends SimpleXMLElement {
 			#echo 'CACHE';
 			return self::$_single[(string)$id];
 		}
-		if ((string) $id == 'auto()') {
-			$new_id = self::_getFriendlyID($this->getAttribute('name'));
-
-			$id = $new_id;
-		}
-
-		
 		
 		# no cache
-	   	$return = self::$_single[(string)$id] = $this->_deleteChild();
+	   #	$return = self::$_single[(string)$id] = $this->_deleteChild();
+		$return = self::$_single[(string)$id] = $this;
 	   	return $return;
 	  
 	}
@@ -172,78 +163,48 @@ class Model_NavigationElement extends SimpleXMLElement {
 	protected function _getFriendlyID ($name) {
         $id = $this->friendly_url($this->getAttribute($name));
 
-		if (isset(self::$_single[$id])) {
+		if (isset(self::$_ids[$id])) {
 			$i=1;
 			$new_id=$id;
-			while(isset(self::$_single[$new_id])){
+			while(isset(self::$_ids[$new_id])){
 				$new_id=$id.'-'.$i;
 				$i++;
 			}
 			$id = $new_id;
 		}
-
+		self::$_ids[$id] = true;
 		return $this['id'] = $id;
     }
-
-	public function friendly_url($url) {
-		// everything to lower and no spaces begin or end
-		#$url = iconv("UTF-8", "UTF-8", $url);
-		$url = trim($url);
-		$url = utf8_encode(strtolower(utf8_decode($url))); ;
-
-		// decode html maybe needed if there's html I normally don't use this
-		$url = html_entity_decode($url,ENT_QUOTES,"UTF-8");
-	 	
-		//replace accent characters, depends your language is needed
-		$url=self::replace_friendly($url);
-	 	// adding - for spaces and union characters
-		$find = array(' ', '&', '\r\n', '\n', '+',',');
-		$url = str_replace ($find, '-', $url);
-	 
-		//delete and replace rest of special chars
-		$find = array('/[^a-z0-9\-<>]/', '/[\-]+/', '/<[^>]*>/');
-		$repl = array('', '-', '');
-		$url = preg_replace ($find, $repl, $url);
-	 
-	 	#show($url);
-		//return the friendly url
-		return $url; 
-	}
-
-	public function replace_friendly($string){ // Special and German characters 
-
-		$replacements = array(
-			' ' => '-',
-			'&' => '+',
-			'\\' => '-',
-			#'/' => '-',
-			'*' => '-',
-			'#' => '-',
-			'\'' => '-',
-			'ä' => 'ae',
-			'ö' => 'oe',
-			'ü' => 'ue',
-			'ß' => 'ss',
-		);
-    	$string = str_replace(array_keys($replacements), $replacements, $string);
-    	return $string; 
-	}
 	
    	protected function _getURI() {
    		 #echo $this->getAttribute('path').' /:'.strpos($this->getAttribute('path'),'/').'<br />';
+
+   		$id = self::getAttribute('id');
+
+		if ((string) $id == 'auto()') {
+			$new_id = self::_getFriendlyID($this->getAttribute('name'));
+			$id = $new_id;
+			$this['id'] = $id;
+		}
+
    		if (strpos($this->getAttribute('path'),'/') === 0 ) {
-   		 	return $this->url = $this->getAttribute('path');
+   		 	$this->url =(string) $this->getAttribute('path');
+   		 	#show($this->url);
+   		 	return $this->url;
    		}
 
         $path = '..';
-        $attribute = 'path';
+       
+        #$return = array();
 
         if (!$this->getAttribute('path')) {
-			$attribute = 'id';        	
+			$attribute = 'id';
+			$return[] = $id;	
+        }else{
+        	 $attribute = 'path';
+        	$return[] = $this->getAttribute($attribute);	
         }
 
-                	
-		$return[] = $this->getAttribute($attribute);
 		#show ( $return);
        	#show($this);
         while ($object = $this->xpath($path)) {
@@ -266,11 +227,17 @@ class Model_NavigationElement extends SimpleXMLElement {
  
 		#show ($return);
 		#if  ($return[0] == '/' && sizeof($return) > 1) { $return[0] = ''; }
+		if (empty($return)) { 
+			return false;
+		}
+
 		if (strpos($return[0],'/') !== 0 ) {  array_unshift($return,''); }
 		if ($return[0] == '/' && sizeof($return) > 1) { $return[0] = ''; }
+		
 
 		$url = implode('/',$return);
-		$this->url = $url;
+	    $this->url = $url;
+		#show($this->url);
         return $return;
    	}
 	
@@ -327,6 +294,52 @@ class Model_NavigationElement extends SimpleXMLElement {
 	      return $clone;
 	  }
 	  return $this;
+	}
+
+
+
+	public function friendly_url($url) {
+		// everything to lower and no spaces begin or end
+		#$url = iconv("UTF-8", "UTF-8", $url);
+		$url = trim($url);
+		$url = utf8_encode(strtolower(utf8_decode($url))); ;
+
+		// decode html maybe needed if there's html I normally don't use this
+		$url = html_entity_decode($url,ENT_QUOTES,"UTF-8");
+	 	
+		//replace accent characters, depends your language is needed
+		$url=self::replace_friendly($url);
+	 	// adding - for spaces and union characters
+		$find = array(' ', '&', '\r\n', '\n', '+',',');
+		$url = str_replace ($find, '-', $url);
+	 
+		//delete and replace rest of special chars
+		$find = array('/[^a-z0-9\-<>]/', '/[\-]+/', '/<[^>]*>/');
+		$repl = array('', '-', '');
+		$url = preg_replace ($find, $repl, $url);
+	 
+	 	#show($url);
+		//return the friendly url
+		return $url; 
+	}
+
+	public function replace_friendly($string){ // Special and German characters 
+
+		$replacements = array(
+			' ' => '-',
+			'&' => '+',
+			'\\' => '-',
+			#'/' => '-',
+			'*' => '-',
+			'#' => '-',
+			'\'' => '-',
+			'ä' => 'ae',
+			'ö' => 'oe',
+			'ü' => 'ue',
+			'ß' => 'ss',
+		);
+    	$string = str_replace(array_keys($replacements), $replacements, $string);
+    	return $string; 
 	}
 	
 }

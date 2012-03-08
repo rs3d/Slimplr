@@ -155,7 +155,7 @@ class Slimpr extends Slim {
 		
 		$app = new Slim();
 		$request = $app->request(); 
-		show($request);
+		#show($request);
 		/**/
 
 		/**
@@ -193,8 +193,8 @@ class Slimpr extends Slim {
 	private function getPage ($page, $template="default") {
 			$view = $this->view();
 			#show ($view);
-			//show($page);
-		    //show(Model_NavigationElement::$_single);
+			#show($page);
+		   	#show(Model_NavigationElement::$_single);
 			#show($this->page);
 			$view->setData($this->settings['meta']);
 					
@@ -207,7 +207,6 @@ class Slimpr extends Slim {
 				show('Seems to be a 404');
 			}
 				
-
 			$this->render($this->settings['templates.'.$template], array(
 				'page' => $page,
 				'class' => null,
@@ -233,6 +232,7 @@ class Slimpr extends Slim {
 			$xmldata = file_get_contents(BASE_PATH .$this -> settings['xml-navigation-pub']);
     	    $this->_Navigation = Model_NavigationElement::_new($xmldata, self::$URI);   		
 			$this->_Navigation->init(self::$URI);
+			#show($this->_Navigation);
         }
         return $this->_Navigation;
 	}
