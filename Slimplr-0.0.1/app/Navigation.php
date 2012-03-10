@@ -114,18 +114,25 @@ class Model_Navigation
        }
        function getCSS ($object,$level) {
            $css = array();
-           if ($object -> getAttribute['current']) {
+
+           /*$css = $object->attributes();
+           show($css);*/
+           if ($object -> getAttribute('current')) {
                $css[] = 'current';
-                   #$class=' class="cur"';
-                   #show($val -> getParents());
-           #}elseif($object['parent']) {
-           }elseif($object -> getAttribute('parent')) {
+           }
+           if($object -> getAttribute('first')) {
+               $css[] = 'first';
+           }
+           if($object -> getAttribute('parent')) {
                $css[] = 'parent';
-           }elseif($object -> getAttribute('brother')) {
+           }
+           if($object -> getAttribute('brother')) {
                $css[] = 'brother';
-           }elseif($object -> getAttribute('child')) {
+           }
+           if($object -> getAttribute('child')) {
                $css[] = 'child';
-           }elseif($object -> getAttribute('uncle')) {
+           }
+           if($object -> getAttribute('uncle')) {
                $css[] = 'uncle';
            }
          
@@ -159,7 +166,7 @@ class Model_Navigation
 
               	 return $this -> stringReturn($return);
 			  }
-               if ($single -> dfn) $dfn = ' <dfn>'.$single -> dfn.'</dfn>';
+              if ($single -> dfn) $dfn = ' <dfn>'.$single -> dfn.'</dfn>';
               if ($single -> linktitle) {
               		if ($single -> dfn) {
               	$title = ' title="'.$single -> linktitle.': '.$single -> dfn.'" ';

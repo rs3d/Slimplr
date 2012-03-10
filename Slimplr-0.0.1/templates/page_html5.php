@@ -12,7 +12,7 @@
 	<meta name="robots" content="index, follow" />
 
 	<link href="/css/style.css" rel="stylesheet" media="all"  />
-	<link  href="http://fonts.googleapis.com/css?family=Anonymous+Pro:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+	<link href="http://fonts.googleapis.com/css?family=Anonymous+Pro:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" />
 
 	
 	<link rel="shortcut icon" href="/img/favicon.ico" />
@@ -32,7 +32,7 @@
 	<script src="/js/script.js"></script>
 
 </head>
-<body <?php echo $class?>>
+<body class="<?php echo $class?>">
 <div class="container"> 
 <div id="page">
 	
@@ -44,7 +44,7 @@
 				</a>
 			</h1>
 			<h2 id="claim" >
-				<?php echo $page->name;?>
+				<?php echo $page->getAttribute('name');?>
 			</h2>
 		</hgroup>
 	</header>
@@ -102,8 +102,6 @@
 				<h4 class="section">Breadcrumb</h4>
 		 		<?php echo $navigation['breadcrumb'];?>
 			</div>
-			</li>
-			<li>
 			<div id="navigation-global">
 				<h4 class="section">Global</h4>
 		 		<?php echo $navigation['global'];?>

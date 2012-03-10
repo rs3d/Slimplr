@@ -4,7 +4,8 @@ class Model_NavigationElement extends SimpleXMLElement {
 	const Container = 'item';
 	static public $Current = null;
 	static $_filter = array('@status !="offline"');
-	static $_ids    = array(); // $_single['id'] = object;
+	static $_urls   = array(); 
+	static $_ids   	= array(); 
 	static $_single = array(); // $_single['id'] = object;
    	
 	 public static function _new($xml, $url, $ns=NULL, $prefix=TRUE) {
@@ -160,14 +161,52 @@ class Model_NavigationElement extends SimpleXMLElement {
 	  
 	}
 
-	protected function _getFriendlyID ($name) {
-        $id = $this->friendly_url($this->getAttribute($name));
+	
+	protected function _setFriendlyUrls ($url) {
+		
+        $test_id=$url;
+
+        $suffix = null;
+
+		if (isset(self::$_urls[$test_id])) {
+			$i=1;
+			$new_id=$test_id;
+			while(isset(self::$_urls[$new_id])){
+				$suffix = '-'.$i;
+				$new_id=$test_id.$suffix;
+
+				$i++;
+			}
+			$test_id = $new_id;
+		}
+		self::$_urls[$test_id] = true;
+		return $url.$suffix;
+    }
+
+    protected function _setFriendlyID ($url) {
+
+    	if (!$this -> attributes()->id || $this -> attributes()->id == 'auto()') {
+    		if (strlen($url) > 1 && strpos($url ,'/') === 0) {
+	    		//delete leading slash
+	    		$url = substr($url, 1-strlen($url));
+	    	}else {
+	    		$url = $this->getAttribute('name');
+	    	}
+	    	$id = $this->friendly_url($url);
+	    	self::$_ids[$id] = true;
+	    	return $this['id'] = $id;
+    	}
+
+        $id = $this->getAttribute('id',true);
+        $suffix = null;
 
 		if (isset(self::$_ids[$id])) {
 			$i=1;
 			$new_id=$id;
 			while(isset(self::$_ids[$new_id])){
-				$new_id=$id.'-'.$i;
+				$suffix = '-'.$i;
+				$new_id=$id.$suffix;
+
 				$i++;
 			}
 			$id = $new_id;
@@ -175,34 +214,29 @@ class Model_NavigationElement extends SimpleXMLElement {
 		self::$_ids[$id] = true;
 		return $this['id'] = $id;
     }
-	
+    
+    /**
+     * Gets the URL and sets auto-values of ID and path
+     */
    	protected function _getURI() {
-   		 #echo $this->getAttribute('path').' /:'.strpos($this->getAttribute('path'),'/').'<br />';
-
-   		$id = self::getAttribute('id');
-
-		if ((string) $id == 'auto()') {
-			$new_id = self::_getFriendlyID($this->getAttribute('name'));
-			$id = $new_id;
-			$this['id'] = $id;
-		}
-
+   		
+   		
    		if (strpos($this->getAttribute('path'),'/') === 0 ) {
-   		 	$this->url =(string) $this->getAttribute('path');
-   		 	#show($this->url);
+   		 	$url = $this->getAttribute('path');
+   		 	$this->url = $url = self::_setFriendlyUrls($url);
+			$this->id  = self::_setFriendlyID($url);
    		 	return $this->url;
    		}
 
         $path = '..';
-       
-        #$return = array();
+		$attribute = 'url';
+		$suffix = '';
 
         if (!$this->getAttribute('path')) {
-			$attribute = 'id';
-			$return[] = $id;	
+			#$attribute = 'url';
+			$return[] = self::getAttribute('id',true);	
         }else{
-        	 $attribute = 'path';
-        	$return[] = $this->getAttribute($attribute);	
+        	$return[] = $this->getAttribute('path');	
         }
 
 		#show ( $return);
@@ -221,24 +255,27 @@ class Model_NavigationElement extends SimpleXMLElement {
             }
         }
 		$return = array_filter($return);
-		
-		#$return[] = '/';
 		$return = array_reverse($return);
  
-		#show ($return);
-		#if  ($return[0] == '/' && sizeof($return) > 1) { $return[0] = ''; }
 		if (empty($return)) { 
 			return false;
 		}
-
+		// no leading slash
 		if (strpos($return[0],'/') !== 0 ) {  array_unshift($return,''); }
+		// leading slash but we need empty element for implode
 		if ($return[0] == '/' && sizeof($return) > 1) { $return[0] = ''; }
 		
-
 		$url = implode('/',$return);
-	    $this->url = $url;
+
+		/** 
+		 *	ID-Test and URL-Prefix
+		 */
+		$this->url = $url = self::_setFriendlyUrls($url);
+		$this->id  = self::_setFriendlyID($url);
+
+		#show($this->getAttribute('id'));
 		#show($this->url);
-        return $return;
+        return $url;
    	}
 	
 	
@@ -248,18 +285,23 @@ class Model_NavigationElement extends SimpleXMLElement {
 		return $xpath;
 	}
 	
-	public function getAttribute($name){
+	public function getAttribute($name,$url_friendly=false){
 		 if (!$this || !$name) {
 		 	#show ($this->attributes());
 		 	return null;
 		 }
 		 if ($this->$name == 'auto()' || 
 		 	 $this->attributes()->$name == 'auto()')  {
-		 	return $this -> _getFriendlyID('name');
+		 	if ($url_friendly) { 
+		 		return $this -> friendly_url( $this->name );
+		 	}
+		 	#return $this -> _getFriendlyID('name');
+		 	#return $this -> friendly_url( $this->name );
+		 	return $this->name;
 		 }
 
-		 if ($this->$name) return (string) trim($this->$name);
-		 if(($this->attributes()->$name)) return (string) trim($this->attributes()->$name);
+		 if ($this->$name) return (string) trim(htmlspecialchars($this->$name));
+		 if(($this->attributes()->$name)) return (string) trim(htmlspecialchars($this->attributes()->$name));
 		 return null;
     }
 	
@@ -337,6 +379,7 @@ class Model_NavigationElement extends SimpleXMLElement {
 			'ö' => 'oe',
 			'ü' => 'ue',
 			'ß' => 'ss',
+			'/' => '-',
 		);
     	$string = str_replace(array_keys($replacements), $replacements, $string);
     	return $string; 
