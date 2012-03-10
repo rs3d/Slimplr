@@ -36,7 +36,7 @@ class Model_NavigationElement extends SimpleXMLElement {
     }
    	public  function init($url) {
    		#show($url);
-   		self::$Current = $this->setCurrent($url);
+   		self::$Current = $this->setCurrent($url)->singleElement();
 	#	show(self::$Current);
 
    		$this->getParents();
@@ -48,11 +48,7 @@ class Model_NavigationElement extends SimpleXMLElement {
    		
    		
 		$xpath = $this->xpath_filter('//'.self::Container);
-		/*foreach ($xpath as $element) {
-			#echo $element->getAttribute('name');
-			$element->singleElement();
-			#show($element);
-		}*/
+		
 		#show(self::$_single);
 	}
 	
@@ -70,7 +66,7 @@ class Model_NavigationElement extends SimpleXMLElement {
 	
 	public function getCurrent() {
 		
-		return self::$Current->singleElement();
+		return self::$Current->_deleteChild();
 	}
 	
 	protected static function getParents(){
@@ -81,7 +77,7 @@ class Model_NavigationElement extends SimpleXMLElement {
                   $object[0]->  _addAttribute('parent',1);
 	               $path .= '/..';
 
-               $return[] = $object[0]->singleElement();
+               $return[] = $object[0];
               }
           }
          return $return;
@@ -155,7 +151,7 @@ class Model_NavigationElement extends SimpleXMLElement {
 		}
 		
 		# no cache
-	   #	$return = self::$_single[(string)$id] = $this->_deleteChild();
+	  #	$return = self::$_single[(string)$id] = $this->_deleteChild();
 		$return = self::$_single[(string)$id] = $this;
 	   	return $return;
 	  
