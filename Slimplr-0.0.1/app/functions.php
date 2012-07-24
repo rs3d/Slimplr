@@ -18,9 +18,10 @@ function show ($mixed,$echo = 'true') {
 	}
 	$return .= '<br />';
 	#print_r($vars);
-	echo $return;
-
-
+	if ($echo) {
+		echo $return;
+	}
+	return $return;
 
 }
 

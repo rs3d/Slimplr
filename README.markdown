@@ -9,7 +9,6 @@ Slim on github: https://github.com/codeguy/Slim
 * Slim Framework
 * more about extending classes
 * using nginx instead of apache
-* english :)
 
 
 

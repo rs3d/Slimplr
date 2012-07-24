@@ -85,21 +85,21 @@ class Model_NavigationElement extends SimpleXMLElement {
 	
 	protected static function getLanguage(){
 		return self::getInheritance('language');
-      }
+    }
 
-      protected static function getInheritance($name){
+    public static function getInheritance($name){
       	$return = '';
 		if (!self::$Current->getAttribute($name)) {
 			 $path = '..';
 
 			while ($object = self::$Current->xpath($path)) {
-				$language = $object[0]->getAttribute($name);
-              if (!$language) {
+				$return = $object[0]->getAttribute($name);
+              if (!$return) {
                	 $path .= '/..';
               }else {
-              	self::$Current->_addAttribute($name,$object[0]->getAttribute($name));
-                # show ($object[0]->getAttribute('language'));
-				return true;
+              	$return=$object[0]->getAttribute($name);
+              	self::$Current->_addAttribute($name,$return);
+				return $return;
               }
          	 }
 	         return $return;

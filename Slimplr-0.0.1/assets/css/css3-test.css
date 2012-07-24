@@ -1,0 +1,135 @@
+@media all {
+    .drop-shadow {
+        position: relative;
+         -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+               -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+                    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .drop-shadow:before,
+    .drop-shadow:after {
+        content:"";
+        position:absolute;
+        z-index: -2;
+        background: red;
+        height: 10px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        
+        border-radius: 100px / 10px;
+        -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+               -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+                    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    }
+    .drop-shadow:before {
+         bottom: 0;   
+    }
+
+    .drop-shadow:after {
+      
+      top: 0;
+      display: none;
+    }
+.breadcrumbs {
+ 
+  overflow: hidden;
+  width: 100%;
+}
+.breadcrumbs ul {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-color: #F5F5F5 #E5E5E5 #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    /*width: 100%;*/
+  float: left;    
+
+}
+.breadcrumbs li {
+  float: left;
+}
+
+.breadcrumbs a {
+  padding: .7em 1em .7em 2em;
+  float: left;
+  text-decoration: none;
+  color: #444;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  background-color: #ddd;
+  background-image: linear-gradient(to right, #f5f5f5, #ddd);  
+}
+
+.breadcrumbs li:first-child a {
+  padding-left: 1em;
+  border-radius: 5px 0 0 5px;
+}
+
+.breadcrumbs a:hover{
+  background: #fff;
+}
+
+.breadcrumbs a::after,
+.breadcrumbs a::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  margin-top: -1.5em;   
+  border-top: 1.5em solid transparent;
+  border-bottom: 1.5em solid transparent;
+  border-left: 1em solid;
+  right: -1em;
+}
+
+.breadcrumbs a::after{ 
+  z-index: 2;
+  border-left-color: #ddd;  
+}
+
+.breadcrumbs a::before{
+  border-left-color: #ccc;  
+  right: -1.1em;
+  z-index: 1; 
+}
+
+.breadcrumbs a:hover::after{
+  border-left-color: #fff;
+}
+
+.breadcrumbs .current a,
+.breadcrumbs .current a:hover{
+  font-weight: bold;
+  background: none;
+}
+
+.breadcrumbs .current a::after,
+.breadcrumbs .current a::before{
+  content: normal;  
+}
+
+
+
+
+
+    .cf:before,
+    .cf:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    .cf:after {
+        clear: both;
+    }
+
+    /**
+     * For IE 6/7 only
+     * Include this rule to trigger hasLayout and contain floats.
+     */
+    .cf {
+        *zoom: 1;
+    }
+       
+}

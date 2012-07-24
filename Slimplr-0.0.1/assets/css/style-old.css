@@ -9,7 +9,17 @@
     padding: 0;
   }
   html {
-
+     background: #666666; /* Old browsers */
+background: -moz-linear-gradient(top,  #666666 0%, #343434 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#666666), color-stop(100%,#343434)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #666666 0%,#343434 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #666666 0%,#343434 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #666666 0%,#343434 100%); /* IE10+ */
+background: linear-gradient(top,  #666666 0%,#343434 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#343434',GradientType=0 ); /* IE6-9 */
+   /*min-height: 100%;*/
+   overflow-y: scroll;
+ background: url('/img/body-bg_puny.png') repeat-x #333333;
  background: #fff;
   }
 
@@ -29,9 +39,8 @@ dl, ol, ul, form, table {
 
 
 
-  /*#logo,
-  #claim,*/
-  h4.section,
+  #logo,
+  #claim,
   #name,
   #ajax {
     display: none;
@@ -46,44 +55,25 @@ dl, ol, ul, form, table {
     color: #000;
   }
 
-
   #page {
     margin: 30px auto 10px auto;
     
     width: 100%; /** > 960px **/
-    max-width: 980px;
-
+    max-width: 960px;
 
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     -ms-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    padding-bottom: 47px;
-    position: relative;
-    top: 47px;
     
   }
-  .layout {
-    margin: 0 auto;
-     width: 100%; /** > 960px **/
-    max-width: 980px;
-    padding: 0;
-  }
-
-
-  #head h1 {
-    padding-bottom: 0;
-  }
-
 
   #layout {
     position: relative;
     clear: both;
-   
-    padding: 4px;
-    padding-bottom: 80px;
-    
+    overflow: hidden;
+    padding-bottom: 40px;
   }
 
   #main {
@@ -93,8 +83,7 @@ dl, ol, ul, form, table {
     background: #fff 0 bottom no-repeat; 
     float: left;
 
-    clear: both;
-  /* background-size: 100%;*/
+    background-size: 100%;
    /* -webkit-box-shadow: 0px 0px 25px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 25px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 25px rgba(50, 50, 50, 0.75);*/
@@ -124,46 +113,38 @@ dl, ol, ul, form, table {
     height: 100%;
     min-height: 550px;
     float: right;
-    position: relative;
-    /*overflow: hidden;*/
-  }
-  #sidebar .info {
-     padding: 1em;
+    overflow: hidden;
   }
   #sidebar .skillz,
   #sidebar .contact {
     height: auto;
     background: #fff;
     width: 100%;
-   
-    position: absolute;
-    /*overflow: hidden;*/
-  
+    padding: 1em;
+    overflow: hidden;
     /*-webkit-box-shadow: 0px 0px 25px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 25px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 25px rgba(50, 50, 50, 0.75);*/
   }
   #sidebar .contact {
-   
-    bottom: 0;
+    position: absolute;
+    bottom: 42px;
   }
 
   #footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #333;
+
     margin: 0 0;
-    padding: 0.5em 0;
-    /*padding: 15px 0 15px 0;*/
+    padding: 6px 0 5px 0;
     font-size: 12px;
-   
+    background: #333333;
     overflow: hidden;
     color: #999;
     clear: both;
     overflow: hidden;
-    border-bottom: 20px solid #fff;
   }
   #footer p {
       margin: 0;
@@ -173,19 +154,18 @@ dl, ol, ul, form, table {
   #footer .copyright {
     float: right;
     font-weight: 400;
-    padding: 10px 0 9px 0;
   }
   #footer time {
     float: right;
   }
   #footer a {
     float: left;
-    color: #666;
+    color: #999;
     text-decoration: none;
   }
   #footer a:hover,
   #footer a:focus {
-    color: #000;
+    color: #f0f0f0;
   }
 
 
@@ -267,13 +247,9 @@ dl, ol, ul, form, table {
     left: -15px;
   
   }
-  #content ol li {
-    margin-bottom: 0.5em;
-  }
   blockquote {
     position: relative;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding: 0 10%;
     font-style: italic;
     margin-top: 1em;
   }
@@ -298,7 +274,7 @@ dl, ol, ul, form, table {
 
   #navigation h3,
   #navigation h4,
-  #navigation-main li.id-imprint {
+  #navigation-main li.id-impressum {
     display: none;
   }
   #navigation ul, 
@@ -357,20 +333,20 @@ dl, ol, ul, form, table {
   #navigation-main span.ajaxLinksLoadingState a {
     display: none;
   }*/
-  #navigation-main ul .id-about a { background-position: -70px 0;}
-  #navigation-main ul .id-examples a { background-position: -140px 0;}
-  #navigation-main ul .id-libraries a { background-position: -210px 0;}
-  #navigation-main ul .id-todos a { background-position: -280px 0;}
-  #navigation-main ul .id-contact a { background-position: -350px 0;}
+  #navigation-main ul .id-ueber-mich a { background-position: -70px 0;}
+  #navigation-main ul .id-skills a { background-position: -140px 0;}
+  #navigation-main ul .id-portfolio a { background-position: -210px 0;}
+  #navigation-main ul .id-lebenslauf a { background-position: -280px 0;}
+  #navigation-main ul .id-kontakt a { background-position: -350px 0;}
 
   #navigation-main ul .current.id-home > a,
   #navigation-main ul .current.id-home > span > a { background-position: 0 bottom;}
 
-  #navigation-main ul .current.id-about a { background-position: -70px bottom;}
-  #navigation-main ul .current.id-examples a { background-position: -140px bottom;}
-  #navigation-main ul .current.id-libraries a { background-position: -210px bottom;}
-  #navigation-main ul .current.id-todos a { background-position: -280px bottom;}
-  #navigation-main ul .current.id-contact a { background-position: -350px bottom;}
+  #navigation-main ul .current.id-ueber-mich a { background-position: -70px bottom;}
+  #navigation-main ul .current.id-skills a { background-position: -140px bottom;}
+  #navigation-main ul .current.id-portfolio a { background-position: -210px bottom;}
+  #navigation-main ul .current.id-lebenslauf a { background-position: -280px bottom;}
+  #navigation-main ul .current.id-kontakt a { background-position: -350px bottom;}
 
   #navigation-main a strong,
   #navigation-main a span,
@@ -464,19 +440,14 @@ dl, ol, ul, form, table {
   /** 
     *Breadcrumb 
     **/
-
   #navigation-breadcrumb {
-   /* position: absolute;
+    position: absolute;
     bottom: 5px;
-    left: 0;
+    left: 10px;
     z-index: 5;
-    width: 440px;*/
-
-    float: left;
-    width: auto;
+    width: 440px;
     font-size: 12px;
   }
-  
   #navigation-breadcrumb em,
   #navigation-breadcrumb strong {
     font-style: normal;
@@ -486,11 +457,10 @@ dl, ol, ul, form, table {
   #navigation-breadcrumb li {
     margin: 0;
     padding: 0;
-    /*display: inline;*/
-    list-style-type:  none;
+    display: inline;
+    /*padding-right: 2em;*/
     color: #999;
   }
-  /*
   #navigation-breadcrumb li:after {
      content: ">";
      padding: 0 0.5em;
@@ -511,8 +481,44 @@ dl, ol, ul, form, table {
   #navigation-breadcrumb a:hover,
   #navigation-breadcrumb a:focus {
     color: #f0f0f0;
-  }*/
+  }
 
+}
+.shadow:after,
+.shadow-gray:after {
+  bottom: -7px;
+  content: ".";
+  height: 6px;
+  position: absolute;
+  text-indent: -9999px;
+  width: 100%;
+ 
+  background-image: -webkit-linear-gradient(left, rgba(255,255,255,1), rgba(255,255,255,0), rgba(255,255,255,1));
+  background-image:    -moz-linear-gradient(left, rgba(255,255,255,1), rgba(255,255,255,0), rgba(255,255,255,1));
+  background-image:     -ms-linear-gradient(left, rgba(255,255,255,1), rgba(255,255,255,0), rgba(255,255,255,1));
+  background-image:      -o-linear-gradient(left, rgba(255,255,255,1), rgba(255,255,255,0), rgba(255,255,255,1));
+}
+ 
+.shadow-gray:after {
+  background-image: -webkit-linear-gradient(left, rgba(205,205,205,1), rgba(205,205,205,0), rgba(205,205,205,1));
+  background-image:    -moz-linear-gradient(left, rgba(205,205,205,1), rgba(205,205,205,0), rgba(205,205,205,1));
+  background-image:     -ms-linear-gradient(left, rgba(205,205,205,1), rgba(205,205,205,0), rgba(205,205,205,1));
+  background-image:      -o-linear-gradient(left, rgba(205,205,205,1), rgba(205,205,205,0), rgba(205,205,205,1));
+}
+ 
+.shadow:before,
+.shadow-gray:before {
+  bottom: -6px;
+  content: ".";
+  height: 6px;
+  position: absolute;
+  text-indent: -9999px;
+  width: 100%;
+ 
+  background-image: -webkit-linear-gradient(top, rgba(150,150,150,1), rgba(150,150,150,0));
+  background-image:    -moz-linear-gradient(top, rgba(150,150,150,1), rgba(150,150,150,0));
+  background-image:     -ms-linear-gradient(top, rgba(150,150,150,1), rgba(150,150,150,0));
+  background-image:      -o-linear-gradient(top, rgba(150,150,150,1), rgba(150,150,150,0));
 }
 
 @media (max-device-width: 980px), (max-width: 960px) {

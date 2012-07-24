@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation language="de">
+  <title>Slimplr – Rapid Prototyping Demo</title>
+  <claim>v0.1.3: based on Slim-Framework (PHP)</claim>
+  <about>Uses jQuery, history.js, jquery</about>
+
+	<item id="auto()" status="online" global="true">
+		<name>Home <!--<![CDATA[<a href="#">test</A>]]>--></name>
+		<path>/</path>
+      <item id="auto()" status="online">
+          <name>About</name>
+      </item>
+      <item id="auto()" status="online">
+          <name>Examples</name>
+      </item>
+      <item id="auto()" status="online">
+          <name>Libraries</name>
+      </item>
+      <item id="auto()" status="online">
+          <name>ToDos</name>
+      </item>
+      <item id="auto()" status="online">
+          <name>Contact</name>
+      </item>
+      <item id="auto()" status="online" global="true">
+          <name>Imprint</name>
+    </item>
+  </item>
+  
+</navigation>

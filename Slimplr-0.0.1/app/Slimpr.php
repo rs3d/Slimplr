@@ -93,6 +93,7 @@ class Slimpr extends Slim {
     					'status' => 'online',
     				),
     				'selection' => array(
+    					
     					'first' => 1,
     					'current' => 1,
     					'parent' => 1,
@@ -155,7 +156,11 @@ class Slimpr extends Slim {
 		
 		$app = new Slim();
 		$request = $app->request(); 
-		#show($request);
+		// Deletes Get-Parms
+		self::$URI = $app->request()->getResourceUri();
+		//show($request);
+
+
 		/**/
 
 		/**
@@ -165,8 +170,12 @@ class Slimpr extends Slim {
 
 		$this->_Navigation = $this->_getNavigationModel();
 		$this->page = $this -> _Navigation -> getCurrent();
-		
-		$this->get($this->page-> url, $this->getPage($this->page));
+		if ($app->request()->isAjax()) {
+
+			$this->get($this->page-> url, $this->getAjax($this->page));
+		} else {
+			$this->get($this->page-> url, $this->getPage($this->page));
+		}
 		/*
 		$this->get('/', function () {
 			show ('Hello world! This is the root node.');
@@ -190,6 +199,34 @@ class Slimpr extends Slim {
 		// else: We should determine a 404-error for files like Google authorization files
 	}
 
+	private function getAjax ($page) {
+		//sleep(1);
+		$navigation = $this -> _getNavigation();
+		$updates = 
+		array(
+				'_title' => $page->getInheritance('title').' – '.$page->getAttribute('name'),
+				'h3#name' => $page->getAttribute('name'),
+				'.ajax-content' => $this->_getContenFile($page->getAttribute('id').'.html'),
+				'name' => $page->getAttribute('name'),
+				'#navigation-breadcrumb' => '<h4 class="section">Breadcrumb</h4>'
+								 		.$navigation['breadcrumb'],
+
+				/*'#navigation' => '								<div id="navigation-main">
+										<h4 class="section">Main</h4>
+										'.$navigation['main'].'
+									</div>
+
+									<div id="navigation-breadcrumb">
+										<h4 class="section">Breadcrumb</h4>
+								 		'.$navigation['breadcrumb'].'
+									</div>
+									',*/
+
+			);
+		echo json_encode($updates);
+
+	}
+
 	private function getPage ($page, $template="default") {
 			$view = $this->view();
 			#show ($view);
@@ -204,16 +241,41 @@ class Slimpr extends Slim {
 			#show($navigation);
 			#show('This is from /routes/navigation-pub.xml');
 			if ($this->page-> url != self::$URI) {
-				show('Seems to be a 404');
+				$this->render($this->settings['templates.'.$template], array(
+				'page' => $page,
+				'class' => null,
+				'lang' =>  $page->getAttribute('language'),
+				'title' => $page->getInheritance('title').' – '.$page->getAttribute('name'),
+				'claim' => $page->getInheritance('claim'),
+				'name' => $page->getAttribute('name'),
+				'content' => 'Seems to be a 404',
+				));
+				#show('Seems to be a 404');
+				die();
 			}
 				
 			$this->render($this->settings['templates.'.$template], array(
 				'page' => $page,
 				'class' => null,
-				'lang' => $page->getAttribute('language'),
+				'lang' =>  $page->getAttribute('language'),
+				'title' => $page->getInheritance('title'),
+				'claim' => $page->getInheritance('claim'),
+				'name' => $page->getAttribute('name'),
+				'content' => $this->_getContenFile($page->getAttribute('id').'.html'),
 			));
 
 	}
+	private function _getContenFile ($file) {
+		$data_dir = BASE_PATH.'/data/';
+		$content = 'Content File '.$file.' not found!';
+
+		if (file_exists($data_dir.$file)) {
+			$content = file_get_contents($data_dir.$file);
+		}
+
+		return $content;
+	}
+
 	private function _getNavigation () {
 		if (null === $this->_NavigationHTML) {
 			require_once 'Navigation.php';
