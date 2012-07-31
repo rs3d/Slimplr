@@ -1,6 +1,8 @@
 # Slimplr is a fork of [Slim Framework for PHP 5](http://www.slimframework.com)
 
-Slim on github: https://github.com/codeguy/Slim
+based on Slim | github: https://github.com/codeguy/Slim
+
+Demo: http://dev.rs3d.de/
 
 ## This is a private project to learn
 
