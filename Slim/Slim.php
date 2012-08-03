@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     1.6.4
+ * @version     1.6.5
  * @package     Slim
  *
  * MIT LICENSE
@@ -31,29 +31,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-//This determines which errors are reported by PHP. By default, all
-//errors (including E_STRICT) are reported.
-error_reporting(E_ALL | E_STRICT);
-
-if ( !defined('MCRYPT_RIJNDAEL_256') ) {
-    define('MCRYPT_RIJNDAEL_256', 0);
-}
-if ( !defined('MCRYPT_MODE_CBC') ) {
-    define('MCRYPT_MODE_CBC', 0);
-}
-
-//This tells PHP to auto-load classes using Slim's autoloader; this will
-//only auto-load a class file located in the same directory as Slim.php
-//whose file name (excluding the final dot and extension) is the same
-//as its class name (case-sensitive). For example, "View.php" will be
-//loaded when Slim uses the "View" class for the first time.
-spl_autoload_register(array('Slim', 'autoload'));
-
-//PHP 5.3 will complain if you don't set a timezone. If you do not
-//specify your own timezone before requiring Slim, this tells PHP to use UTC.
-if ( @date_default_timezone_set(date_default_timezone_get()) === false ) {
-    date_default_timezone_set('UTC');
-}
+// Comment out this line if you are using an alternative autoloader (e.g. Composer)
+Slim::registerAutoloader();
 
 /**
  * Slim
@@ -62,6 +41,11 @@ if ( @date_default_timezone_set(date_default_timezone_get()) === false ) {
  * @since   1.0.0
  */
 class Slim {
+    /**
+     * @const string
+     */
+    const VERSION = '1.6.0';
+
     /**
      * @var array[Slim]
      */
@@ -143,6 +127,13 @@ class Slim {
         }
     }
 
+    /**
+     * Register Slim's built-in autoloader
+     */
+    public static function registerAutoloader() {
+        spl_autoload_register(array('Slim', 'autoload'));
+    }
+
     /***** INSTANTIATION *****/
 
     /**
@@ -152,10 +143,11 @@ class Slim {
      */
     public function __construct( $userSettings = array() ) {
         //Setup Slim application
+        $this->settings = array_merge(self::getDefaultSettings(), $userSettings);
         $this->environment = Slim_Environment::getInstance();
         $this->request = new Slim_Http_Request($this->environment);
         $this->response = new Slim_Http_Response();
-        $this->router = new Slim_Router($this->request, $this->response);
+        $this->router = new Slim_Router($this->request->getResourceUri());
         $this->settings = array_merge(self::getDefaultSettings(), $userSettings);
         $this->middleware = array($this);
         $this->add(new Slim_Middleware_Flash());
@@ -181,9 +173,6 @@ class Slim {
         $log->setEnabled($this->config('log.enabled'));
         $log->setLevel($this->config('log.level'));
         $this->environment['slim.log'] = $log;
-
-        //Set global error handler
-        set_error_handler(array('Slim', 'handleErrors'));
     }
 
     /**
@@ -221,7 +210,8 @@ class Slim {
      */
     public static function getDefaultSettings() {
         return array(
-            //Mode
+            //Application
+            'install_autoloader' => true,
             'mode' => 'development',
             //Debugging
             'debug' => true,
@@ -923,7 +913,7 @@ class Slim {
      * @return  string
      */
     public function urlFor( $name, $params = array() ) {
-        return $this->router->urlFor($name, $params);
+        return $this->request->getRootUri() . $this->router->urlFor($name, $params);
     }
 
     /**
@@ -1091,6 +1081,8 @@ class Slim {
      * @return void
      */
     public function run() {
+        set_error_handler(array('Slim', 'handleErrors'));
+
         //Apply final outer middleware layers
         $this->add(new Slim_Middleware_PrettyExceptions());
 
@@ -1120,6 +1112,8 @@ class Slim {
 
         //Send body
         echo $body;
+
+        restore_error_handler();
     }
 
     /**
@@ -1144,7 +1138,7 @@ class Slim {
                 if ( $route->supportsHttpMethod($this->environment['REQUEST_METHOD']) ) {
                     try {
                         $this->applyHook('slim.before.dispatch');
-                        $dispatched = $route->dispatch();
+                        $dispatched = $this->router->dispatch($route);
                         $this->applyHook('slim.after.dispatch');
                         if ( $dispatched ) {
                             break;
