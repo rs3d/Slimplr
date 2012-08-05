@@ -11,6 +11,7 @@
 
 require BASE_PATH.'/../Slim/Slim.php';
 
+
 class Slimpr extends Slim {
 
 	/**
@@ -153,14 +154,20 @@ class Slimpr extends Slim {
 		/**
 		 * This gets tne navigation model and current page object
 		 */
+		#phpinfo();
 		
+
 		$app = new Slim();
+		
+
+
 		$request = $app->request(); 
 		// Deletes Get-Parms
 		self::$URI = $app->request()->getResourceUri();
-		//show($request);
-
-
+		/*show(self::$URI);
+		show($request);
+		show ($_SERVER['PATH_INFO']);
+		*/
 		/**/
 
 		/**
