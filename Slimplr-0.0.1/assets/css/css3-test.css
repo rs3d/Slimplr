@@ -11,8 +11,8 @@
         content:"";
         position:absolute;
         z-index: -2;
-        background: red;
-        height: 10px;
+        background: #fff;
+       /* height: 10px;*/
         width: 100%;
         left: 0;
         right: 0;

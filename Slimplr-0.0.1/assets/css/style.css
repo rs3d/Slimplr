@@ -163,6 +163,7 @@ dl, ol, ul, form, table {
     clear: both;
     overflow: hidden;
     border-bottom: 20px solid #fff;
+    z-index: 100;
   }
   #footer p {
       margin: 0;
@@ -176,6 +177,7 @@ dl, ol, ul, form, table {
   }
   #footer time {
     float: right;
+    padding: 0 1em;
   }
   #footer a {
     float: left;
@@ -514,17 +516,23 @@ dl, ol, ul, form, table {
 
 }
 
-@media (max-device-width: 980px), (max-width: 960px) {
+@media (max-device-width: 980px), (max-width: 980px) {
 
     html,body {
       font-size: 100%;
       margin: 0;
       
     }
+    #head {
+      padding: 2em 1em 1em 2.5em;
+    }
     #page {
       width: auto;
       margin: auto;
      
+    }
+    #layout {
+      padding: 0 0 50px 0;
     }
     #main {
       width: 70%;
@@ -542,7 +550,8 @@ dl, ol, ul, form, table {
       text-align: right;
     }
   #navigation-main a {
-    width: auto;
+    width: 100%;
+    overflow: hidden;
   }
   #navigation-main a strong,
   #navigation-main a span,
@@ -595,6 +604,7 @@ dl, ol, ul, form, table {
     #sidebar .skillz, 
     #sidebar .contact {
         margin-top: 1%;
+        position: static;
     }
     #sidebar .contact {
       position: static;
@@ -612,10 +622,20 @@ dl, ol, ul, form, table {
       background: #fff;
 
     }
-   
+    #footer {
+      opacity: 0.90;
+      -moz-opacity: 0.90;
+      filter:alpha(opacity=0.90);
+    }
+
+    #footer:hover {
+      opacity: 1;
+      -moz-opacity: 1;
+      filter:alpha(opacity=1);
+    }
 
   }
-  @media (max-device-width:480px), (max-width: 480px) {
+  @media (max-device-width:640px), (max-width: 640px) {
     html,body {
       font-size: 100%;
       background: #fff;
@@ -626,6 +646,7 @@ dl, ol, ul, form, table {
       margin: auto;
      
     }
+
     #main {
       width: auto;
       height: auto;
@@ -711,7 +732,7 @@ dl, ol, ul, form, table {
     }
     #footer p,
     #footer p.copyright {
-      padding: 0 1em;
+     /* padding: 0 1em;*/
       width: 100%;
       float: none;
     }
