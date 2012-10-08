@@ -123,10 +123,10 @@
 				<h4>Contact</h4>
 				<p><strong>Robin Schmitz</strong> </p>
 				<p>				
-				Mainzer Str. 4 – 10247 Berlin  Germany
+				Urbanstr. 64 – 10967 Berlin  Germany
 				</p>
 				<p>
-				Phone	0 30 / 76 76 99 88<br />
+				
 				Mobil		0 1 77 / 727 94 82
 				</p>
 				<p>
